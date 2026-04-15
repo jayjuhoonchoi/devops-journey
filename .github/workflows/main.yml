@@ -11,7 +11,7 @@ jobs:
    check:
       runs-on: ubuntu-latest
       steps:
-        - uses: action/checkout@v4
+        - uses: actions/checkout@v4
 
 
         - name: 스크립트 파일 확인
@@ -20,7 +20,7 @@ jobs:
 
         - name: Bash 문법 검사
           run:  |
-            bash -n week01/day02/health_check,sh
+            bash -n week01/day02/health_check.sh
             bash -n week01/day02/log_cleanup.sh
             bash -n week01/day02/backup.sh
             echo "모든 스크립트 문법 이상 없음!"
