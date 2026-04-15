@@ -1,0 +1,29 @@
+name : DevOps Journey CI
+
+
+on:
+   push:
+      branches: [ main ]
+
+
+
+jobs:
+   check:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: action/checkout@v3
+
+
+        - name: 스크립트 파일 확인
+          run: ls -la
+
+
+        - name: Bash 문법 검사
+          run:  |
+            bash -n week01/day02/health_check,sh
+            bash -n week01/day02/log_cleanup.sh
+            bash -n week01/day02/backup.sh
+            echo "모든 스크립트 문법 이상 없음!"
+
+
+
