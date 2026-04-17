@@ -1,0 +1,30 @@
+name: CI/CD Pipeline
+
+# main 브랜치에 push할 때마다 자동 실행
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: 코드 가져오기
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: DockerHub 로그인
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Step 3: Docker 이미지 빌드 & push
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./week03/day15/app
+          push: true
+          tags: jayjuhoonchoi/devops-journey:latest
