@@ -1,0 +1,81 @@
+---
+# Ansible Playbook
+# "모든 webservers에 아래 작업을 실행해줘"
+
+- name: Configure Web Server
+  hosts: webservers
+  become: true
+
+  tasks:
+
+    # 작업 1: 패키지 목록 업데이트
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    # 작업 2: Nginx 설치
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    # 작업 3: Nginx 시작 & 부팅시 자동시작
+    - name: Start and enable Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    # 작업 4: 커스텀 HTML 페이지 배포
+    - name: Deploy custom index.html
+      copy:
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head><title>DevOps Journey</title></head>
+          <body>
+            <h1>Hello from AWS! 🚀</h1>
+            <p>Deployed by Ansible</p>
+            <p>Server IP: 3.27.140.24</p>
+            <p>Built by: Jay Choi | Melbourne DevOps Journey</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+
+    # 작업 5: Docker 설치
+    - name: Install Docker dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu jammy stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Start Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
