@@ -12,9 +12,9 @@
 |--------|------|
 | terraform init | 플러그인 준비 |
 | terraform plan | 미리보기 |
-| terraform apply | 실제 생성 |
 | terraform destroy | 삭제 |
 
 ## 내일 할 것
 - Terraform variable & output 사용법
 - EC2 인스턴스 Terraform으로 생성
+
