@@ -4,3 +4,6 @@
 .terraform.lock.hcl
 aws/
 awscliv2.zip
+kubectl
+minikube-linux-amd64
+*.bin
